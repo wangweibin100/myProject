@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+  
+<mapper namespace="mapper.UserMapper">
+    <select id="selectItem" parameterType="Item" resultType="main.java.wang.bean.Item">
+    	SELECT
+    		ITEM_CODE
+    		, ITEM_TYPE
+    		, ITEM_VALUE
+    	FROM
+    		ITEM
+    	WHERE
+    		ITEM_TYPE = #{itemType, jdbcType=VARCHAR}
+    	ORDER BY
+    		ITEM_CODE ASC
+    </select>
+    <select id="selectItemCount" parameterType="Item" resultType="main.java.wang.bean.Item">
+    	SELECT
+    		ITEM_CODE
+    	FROM
+    		ITEM
+    	WHERE
+    		ITEM_CODE = #{itemCode, jdbcType=VARCHAR}
+    		AND ITEM_TYPE = #{itemType, jdbcType=VARCHAR}
+    </select>
+    <select id="selectParty" parameterType="Party" resultType="main.java.wang.bean.Party">
+    	SELECT
+    		PARTY_ID
+    		, START_TIME
+    		, END_TIME
+    	FROM
+    		PARTY
+    	WHERE
+    		PARTY_ID = #{partyId, jdbcType=VARCHAR}
+    		AND PARTY_DATE = #{partyDate, jdbcType=VARCHAR}
+    </select>
+    <insert id="insertParty" parameterType="Party">  
+        INSERT INTO PARTY(
+        	party_id
+        	, party_date
+        	, start_time
+        	, end_time
+        	, user_name
+        	, tel_no
+        	, email_no
+        	, resion_id
+        	, comment
+        ) VALUES (
+        	#{partyId, jdbcType=VARCHAR}
+        	, #{partyDate, jdbcType=VARCHAR}
+        	, #{startTime, jdbcType=VARCHAR}
+        	, #{endTime, jdbcType=VARCHAR}
+        	, #{userName, jdbcType=VARCHAR}
+        	, #{telNo, jdbcType=VARCHAR}
+        	, #{emailNo, jdbcType=VARCHAR}
+        	, #{resionId, jdbcType=VARCHAR}
+        	, #{comment, jdbcType=VARCHAR}
+        )    
+    </insert>
+    <select id="searchParty" parameterType="Party" resultType="main.java.wang.bean.Party">
+    	SELECT
+    		P.PARTY_ID
+    		, P.PARTY_DATE
+    		, I1.ITEM_VALUE AS START_TIME
+    		, I2.ITEM_VALUE AS END_TIME
+    		, I3.ITEM_VALUE AS PARTY_NAME
+    		, P.USER_NAME
+    		, P.TEL_NO
+    	FROM PARTY P
+    		LEFT JOIN ITEM I1
+    		ON P.START = I1.ITEM_CODE
+    		AND I1.ITEM_TYPE = 'TIME'
+    		LEFT JOIN ITEM I2
+    		ON P.PARTY_ID = I2.ITEM_CODE
+    		AND I2.ITEM_TYPE = 'TIME'
+    		LEFT JOIN ITEM I3
+    		ON P.PARTY_ID = I3.ITEM_CODE
+    		AND I3.ITEM_TYPE = 'PARTY_ROOM'
+    	WHERE
+    	    1 = 1
+    		<if test = "partyId = null or partyId= ''">
+    			AND P.PARTY_ID = #{partyId, jdbcType=VARCHAR}
+    		</if>
+    		<if test = "partyDate = null">
+    			AND P.PARTY_DATE = #{partyDate, jdbcType=DATE}
+    		</if>
+    	ORDER BY
+    		P.PARTY_DATE DESC
+    		, P.START_TIME ASC
+    </select>
+</mapper> 
