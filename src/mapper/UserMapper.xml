@@ -83,9 +83,6 @@
     		<if test = "partyId = null or partyId= ''">
     			AND P.PARTY_ID = #{partyId, jdbcType=VARCHAR}
     		</if>
-    		<if test = "partyDate = null">
-    			AND P.PARTY_DATE = #{partyDate, jdbcType=DATE}
-    		</if>
     	ORDER BY
     		P.PARTY_DATE DESC
     		, P.START_TIME ASC
