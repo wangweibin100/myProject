@@ -84,7 +84,8 @@
     			AND P.PARTY_ID = #{partyId, jdbcType=VARCHAR}
     		</if>
     	ORDER BY
-    		P.PARTY_DATE DESC
+    		P.PARTY_ID ASC
+    		, P.PARTY_DATE DESC
     		, P.START_TIME ASC
     </select>
 </mapper> 
