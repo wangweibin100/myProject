@@ -9,8 +9,9 @@
 </head>
 <body>
 <script type="text/javascript">
-function search () {
-	var condition = {'partyId':$("#party_id").val()};
+function search() {
+	var partyId = $("#partyId").val();
+	var condition = {'partyId' : partyId};
 	var data = JSON.stringify(condition);
 
 	$.ajax({ 
@@ -54,7 +55,7 @@ function search () {
 		<tr style="height:20px;">
 			<td style="width:25%; text-align:right;">会议室</td>
 			<td style="width:25%;">
-				<select style="width:100%;" id="party_id" name="party_id">
+				<select style="width:100%;" id="partyId" name="partyId">
 					<c:forEach items="${partyRoomList}" var="item" varStatus="status">
 						<option value="${item.itemCode}"> ${item.itemValue}</option>
 					</c:forEach>
@@ -63,7 +64,7 @@ function search () {
 		</tr>
 		<tr>
 			<td style="text-align:right;">
-				<button id="searchBtn" name="searchBtn" onclick="search();" type="button">查询</button>
+				<button id="searchBtn" name="searchBtn" onclick="javascript:search();" type="button">查询</button>
 			</td>
             <td>
 			</td>
